@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import re
+from urllib.parse import unquote
 
 app = Flask(__name__)
 
@@ -11,6 +12,11 @@ def is_valid_cnpj(value):
 #Endpoint para chamada externa
 @app.route('/validate-cnpj', methods=['GET'])
 def validate_cnpj():
+    
+    # Decodificar o valor para lidar com codificação dupla
+    if value:
+        value = unquote(value)
+    
     # Captura os parâmetros da URL
     key = request.args.get('key')
     value = request.args.get('value')
